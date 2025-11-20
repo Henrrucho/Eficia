@@ -74,7 +74,6 @@ font-size: 30px;
 font-family: 'PlaywriteCZ_400Regular';
 font-weight: bold;
 text-align: left;
-
 color: rgb(173,203,255);
 `;
 
