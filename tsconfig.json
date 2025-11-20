@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "moduleResolution": "bundler",
     "strict": true,
     "paths": {
       "@/*": [
@@ -8,6 +9,8 @@
       ]
     }
   },
+  
+
   "include": [
     "**/*.ts",
     "**/*.tsx",
