@@ -38,12 +38,12 @@ export default function task() {
                 <TextInput placeholder="Escribir titulo..." numberOfLines={1} />
 
 
-                <Label>Fecha y hora</Label>
+                <Label>Fecha y hora</Label> {/*Agregar picker de fecha y hora */}
                 <DatePickerButton>
                     <Label>Seleccionar fecha y hora</Label>
                 </DatePickerButton>
 
-                <Label>Prioridad</Label>
+                <Label>Prioridad</Label>  {/* Agregar opciones de prioridad por colores */}
                 <PriorityOptions>
                     <DatePickerButton style={{ width: '30%', alignItems: 'center' }}>
                         <Label>Baja</Label>
@@ -65,7 +65,7 @@ export default function task() {
                         <CancelButtonText>Cancelar</CancelButtonText>
                     </CancelButton>
 
-                    <SubmitButton onPress={() => router.push('/')}>
+                    <SubmitButton onPress={() => router.push('/')}> {/*Implementar guardado de tarea*/}
                         <ButtonText>Guardar Tarea</ButtonText>
                     </SubmitButton>
                 </ButtonsContainer>

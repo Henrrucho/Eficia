@@ -37,7 +37,7 @@ export default function Screen1() {
                     <ImageHome source={require('../assets/images/ImagenInicio.png')} resizeMode="contain" />
                     <ContainerTitle>No tienes pendientes, relajate un poco...</ContainerTitle>
                 </ContainerBox>
-                <ButtonAdd onPress={() => router.push('/newtask')}>
+                <ButtonAdd onPress={() => router.push('/task')}>
                     <FontAwesome name="plus" size={30} color="white" />
                 </ButtonAdd>
             </Container>
