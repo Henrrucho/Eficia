@@ -41,24 +41,39 @@ export default function Screen1() {
             </Container>
             <Footer>
                 <FooterContainer>
-                    <FooterItemActive onPress={() => router.push('/')}> <FontAwesome name="home" size={35} /></FooterItemActive>
-                </FooterContainer>
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}> <FontAwesome name="users" size={35} /></FooterItem>
-                </FooterContainer>
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}> <FontAwesome name="bell" size={35} /></FooterItem>
-                </FooterContainer>
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}> <FontAwesome name="list" size={35} /></FooterItem>
+                    <FooterItemActive onPress={() => router.push('/')}>
+                        <FontAwesome name="home" size={35} />
+                    </FooterItemActive>
                 </FooterContainer>
 
+                <FooterContainer>
+                    <FooterItem onPress={() => router.push('/')}>
+                        <FontAwesome name="users" size={35} />
+                    </FooterItem>
+                </FooterContainer>
+
+                <FooterContainer>
+                    <FooterItem onPress={() => router.push('/')}>
+                        <FontAwesome name="bell" size={35} />
+                    </FooterItem>
+                </FooterContainer>
+
+                <FooterContainer>
+                    <FooterItem onPress={() => router.push('/')}>
+                        <FontAwesome name="list" size={35} />
+                    </FooterItem>
+                </FooterContainer>
+
+                <FooterContainer>
+                    <FooterItem onPress={() => router.push('/recompensas')}>
+                        <FontAwesome name="archive" size={35} />
+                    </FooterItem>
+                </FooterContainer>
             </Footer>
-        </SafeAreaView>
-    )
-}
 
-
+                    </SafeAreaView>
+                )
+            }
 
 const Header = styled.View`
 width: 100%;
@@ -161,9 +176,3 @@ color: rgb(255,255,255);
 text-align: center;
 background-color: rgb(155,175,200);
 `;
-
-
-
-
-
-
