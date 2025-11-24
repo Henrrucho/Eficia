@@ -34,29 +34,29 @@ export default function task() {
                     <ContainerTitle>Nueva Tarea</ContainerTitle>
                 </ContainerBox>
 
-                <Label>Titulo de la tarea:</Label>
+                <Text>Titulo de la tarea:</Text>
                 <TextInput placeholder="Escribir titulo..." numberOfLines={1} />
 
 
-                <Label>Fecha y hora</Label> {/*Agregar picker de fecha y hora */}
+                <Text>Fecha y hora</Text> {/*Agregar picker de fecha y hora */}
                 <DatePickerButton>
-                    <Label>Seleccionar fecha y hora</Label>
+                    <Text>Seleccionar fecha y hora</Text>
                 </DatePickerButton>
 
-                <Label>Prioridad</Label>  {/* Agregar opciones de prioridad por colores */}
+                <Text>Prioridad</Text>  {/* Agregar opciones de prioridad por colores */}
                 <PriorityOptions>
                     <DatePickerButton style={{ width: '30%', alignItems: 'center' }}>
-                        <Label>Baja</Label>
+                        <Text>Baja</Text>
                     </DatePickerButton>
                     <DatePickerButton style={{ width: '30%', alignItems: 'center' }}>
-                        <Label>Media</Label>
+                        <Text>Media</Text>
                     </DatePickerButton>
                     <DatePickerButton style={{ width: '30%', alignItems: 'center' }}>
-                        <Label>Alta</Label>
+                        <Text>Alta</Text>
                     </DatePickerButton>
                 </PriorityOptions>
 
-                <Label>Descripción de la tarea:</Label>
+                <Text>Descripción de la tarea:</Text>
                 <TextInput placeholder="Agregar descripción..." multiline={true} numberOfLines={4} style={{ height: 100, textAlignVertical: 'top' }} />
 
 
@@ -127,7 +127,7 @@ font-family: 'Montserrat_400Regular';
 `;
 
 
-const Label = styled.Text`
+const Text = styled.Text`
 font-size: 16px;
 margin-top: 10px;
 textAlign: left;
