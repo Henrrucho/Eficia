@@ -18,14 +18,12 @@ export default function Registro() {
       return;
     }
 
-    // Validación básica de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert("Error", "Por favor ingresa un email válido");
       return;
     }
 
-    // Validación de contraseña
     if (password.length < 6) {
       Alert.alert("Error", "La contraseña debe tener al menos 6 caracteres");
       return;
@@ -34,29 +32,38 @@ export default function Registro() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://10.0.2.2:5116/api/auth/register', {
+      const response = await axios.post('http://10.0.2.2:5116/auth/register', {
         name,
         email,
         password
+      }, {
+        timeout: 10000,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
-      console.log('Registro exitoso:', response.data);
       Alert.alert("Éxito", "Cuenta creada exitosamente");
-      
-      // Redirigir al login después del registro
       router.replace("/login");
       
     } catch (error: any) {
-      console.error('Error en registro:', error.response?.data || error.message);
+      console.error('Error en registro:', error);
       
-      if (error.response?.status === 400) {
-        if (error.response.data.includes("email") || error.response.data.includes("Email")) {
+      if (error.response?.status === 404) {
+        Alert.alert(
+          "Error 404",
+          "No se encontró el endpoint de registro. Verifica la URL del servidor."
+        );
+      } else if (error.response?.status === 400) {
+        if (error.response.data?.includes("email") || error.response.data?.message?.includes("email")) {
           Alert.alert("Error", "El email ya está registrado");
         } else {
           Alert.alert("Error", "Datos de entrada inválidos");
         }
       } else if (error.response?.status === 500) {
-        Alert.alert("Error", "Error en el servidor. Intenta más tarde.");
+        Alert.alert("Error", "Error interno del servidor");
+      } else if (error.code === 'NETWORK_ERROR' || error.code === 'ECONNREFUSED') {
+        Alert.alert("Error", "No se puede conectar al servidor. Verifica que esté ejecutándose.");
       } else {
         Alert.alert("Error", "No se pudo crear la cuenta. Verifica tu conexión.");
       }
@@ -128,7 +135,6 @@ export default function Registro() {
   );
 }
 
-// Styled Components (los mismos que antes)
 const Header = styled.View`
   width: 100%;
   height: 60px;
