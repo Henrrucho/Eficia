@@ -195,16 +195,17 @@ export default function NotasScreen() {
             </View>
           </View>
 
-          <View style={styles.editorWrap}>
-            <RichEditor
-              ref={editorRef}
-              initialContentHTML={contenidoHtml}
-              editorStyle={editorContentStyle as any}
-              placeholder="Escribe tu nota..."
-              onChange={(html) => setContenidoHtml(html)}
-              style={{ minHeight: 200, borderRadius: 12, backgroundColor: '#fff' }}
-            />
-          </View>
+         <View style={{ height: 400, marginTop: 12, borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: '#EEE' }}>
+  <RichEditor
+    ref={editorRef}
+    initialContentHTML={contenidoHtml}
+    editorStyle={editorContentStyle as any}
+    placeholder="Escribe tu nota..."
+    onChange={(html) => setContenidoHtml(html)}
+    style={{ flex: 1, backgroundColor: '#fff', padding: 10 }}
+  />
+</View>
+
 
           <RichToolbar
             editor={editorRef}

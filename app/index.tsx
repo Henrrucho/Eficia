@@ -50,7 +50,7 @@ export default function Screen1() {
                     <FooterItem onPress={() => router.push('/historial')}> <FontAwesome name="bell" size={35} /></FooterItem>
                 </FooterContainer>
                 <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}> <FontAwesome name="list" size={35} /></FooterItem>
+                    <FooterItem onPress={() => router.push('/racha')}> <FontAwesome name="list" size={35} /></FooterItem>
                 </FooterContainer>
 
             </Footer>
