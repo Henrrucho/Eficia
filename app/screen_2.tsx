@@ -14,4 +14,5 @@ export default function Screen2(){
         </View>
         </SafeAreaView>
     )
+
 }
