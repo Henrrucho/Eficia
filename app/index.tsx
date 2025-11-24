@@ -1,8 +1,8 @@
 import {
-    PlaywriteCZ_100Thin,
-    PlaywriteCZ_200ExtraLight,
-    PlaywriteCZ_300Light,
-    PlaywriteCZ_400Regular
+  PlaywriteCZ_100Thin,
+  PlaywriteCZ_200ExtraLight,
+  PlaywriteCZ_300Light,
+  PlaywriteCZ_400Regular
 } from '@expo-google-fonts/playwrite-cz';
 import { FontAwesome } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
@@ -226,7 +226,7 @@ export default function Screen1() {
                     <FooterItem onPress={() => router.push('/')}> <FontAwesome name="bell" size={35} /></FooterItem>
                 </FooterContainer>
                 <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}> <FontAwesome name="list" size={35} /></FooterItem>
+                    <FooterItem onPress={() => router.push('/login')}> <FontAwesome name="list" size={35} /></FooterItem>  
                 </FooterContainer>
 
             </Footer>
