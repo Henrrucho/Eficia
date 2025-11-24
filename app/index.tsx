@@ -211,7 +211,9 @@ export default function Screen1() {
                     {/* <ImageHome source={require('../assets/images/ImagenInicio.png')} resizeMode="contain" />
                     <ContainerTitle>No tienes pendientes, relajate un poco...</ContainerTitle> */}
                 </ContainerBox>
-
+                <ButtonAdd onPress={() => router.push('/task')}>
+                    <FontAwesome name="plus" size={30} color="white" />
+                </ButtonAdd>
             </Container>
             <Footer>
                 <FooterContainer>
@@ -521,6 +523,18 @@ margin-bottom: 10px;
 text-align: center;
 `;
 
+const ButtonAdd = styled.TouchableOpacity`
+width: 60px;
+height: 60px;
+border-radius: 30px;
+background-color: rgb(173,203,255);
+display: flex;
+justify-content: center;
+align-items: center;
+position: absolute;
+bottom: 20px;
+right: 20px;
+`;
 
 const Footer = styled.View`
 display: flex;
