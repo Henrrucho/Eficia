@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { View, TouchableOpacity, Alert } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, TouchableOpacity, View } from "react-native";
 
 import { RichEditor, RichToolbar } from "react-native-pell-rich-editor";
 
