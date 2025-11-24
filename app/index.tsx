@@ -39,37 +39,39 @@ export default function Screen1() {
                 </ContainerBox>
 
             </Container>
-            <Footer>
-                <FooterContainer>
-                    <FooterItemActive onPress={() => router.push('/')}>
-                        <FontAwesome name="home" size={35} />
-                    </FooterItemActive>
-                </FooterContainer>
+<Footer>
+    <FooterContainer>
+        <FooterItemActive onPress={() => router.push('/')}>
+            <FontAwesome name="home" size={35} />
+        </FooterItemActive>
+    </FooterContainer>
 
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}>
-                        <FontAwesome name="users" size={35} />
-                    </FooterItem>
-                </FooterContainer>
+    <FooterContainer>
+        <FooterItem onPress={() => router.push('/')}>
+            <FontAwesome name="users" size={35} />
+        </FooterItem>
+    </FooterContainer>
 
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}>
-                        <FontAwesome name="bell" size={35} />
-                    </FooterItem>
-                </FooterContainer>
+    <FooterContainer>
+        <FooterItem onPress={() => router.push('/')}>
+            <FontAwesome name="bell" size={35} />
+        </FooterItem>
+    </FooterContainer>
 
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/')}>
-                        <FontAwesome name="list" size={35} />
-                    </FooterItem>
-                </FooterContainer>
+    <FooterContainer>
+        <FooterItem onPress={() => router.push('/')}>
+            <FontAwesome name="list" size={35} />
+        </FooterItem>
+    </FooterContainer>
 
-                <FooterContainer>
-                    <FooterItem onPress={() => router.push('/recompensas')}>
-                        <FontAwesome name="archive" size={35} />
-                    </FooterItem>
-                </FooterContainer>
-            </Footer>
+    {/** 🔥 Nuevo botón: RECOMPENSAS */}
+    <FooterContainer>
+        <FooterItem onPress={() => router.push('/recompensas')}>
+            <FontAwesome name="gift" size={35} />
+        </FooterItem>
+    </FooterContainer>
+</Footer>
+
 
                     </SafeAreaView>
                 )

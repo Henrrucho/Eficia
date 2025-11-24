@@ -1,76 +1,413 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useState } from "react";
+import {
+  Animated,
+  Platform,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
+/* ----------------------------- DATA ----------------------------- */
 
-export default function RecompensasScreen() {
+type ThemeItem = {
+  id: number;
+  name: string;
+  unlocked: boolean;
+  gradient: readonly string[];
+};
+
+type ThemeContextType = {
+  temaActivo: ThemeItem | null;
+  setTemaActivo: (tema: ThemeItem | null) => void;
+};
+
+export const ThemeContext = createContext<ThemeContextType>({
+  temaActivo: null,
+  setTemaActivo: () => {},
+});
+
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [temaActivo, setTemaActivo] = useState<ThemeItem | null>(null);
+
+  return (
+    <ThemeContext.Provider value={{ temaActivo, setTemaActivo }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+const temas = [
+    
+    {
+        id: 1,
+        name: "Cielo Azul",
+        unlocked: true,
+        gradient: ["#adcBff", "#8da4ff"] as const,
+    },
+    {
+        id: 2,
+        name: "Atardecer",
+        unlocked: false,
+        gradient: ["#ff9a9e", "#fad0c4"] as const,
+    },
+    {
+        id: 3,
+        name: "Bosque",
+        unlocked: true,
+        gradient: ["#a8e6cf", "#56c596"] as const,
+    },
+    {
+  id: 4,
+  name: "Atardecer",
+  unlocked: true,
+  gradient: ["#ff9a9e", "#fad0c4"],
+},
+{
+  id: 5,
+  name: "Aurora",
+  unlocked: true,
+  gradient: ["#00c6ff", "#0072ff"],
+},
+{
+  id: 6,
+  name: "Hielo",
+  unlocked: true,
+  gradient: ["#e0f7fa", "#80deea"],
+},
+{
+  id: 7,
+  name: "Selva Esmeralda",
+  unlocked: false,
+  gradient: ["#005c3c", "#00b894"],
+},
+{
+  id: 8,
+  name: "Volcánico",
+  unlocked: false,
+  gradient: ["#ff512f", "#dd2476"],
+},
+{
+  id: 9,
+  name: "Galaxia",
+  unlocked: false,
+  gradient: ["#654ea3", "#eaafc8"],
+},
+{
+  id: 10,
+  name: "Noche Estrellada",
+  unlocked: true,
+  gradient: ["#000428", "#004e92"],
+},
+{
+  id: 11,
+  name: "Menta Pastel",
+  unlocked: true,
+  gradient: ["#c3ffe8", "#d9fffd"],
+},
+{
+  id: 12,
+  name: "Oro Líquido",
+  unlocked: false,
+  gradient: ["#f6d365", "#fda085"],
+},
+{
+  id: 13,
+  name: "Neón Punk",
+  unlocked: true,
+  gradient: ["#ff0099", "#493240"],
+},
+{
+  id: 14,
+  name: "Ciber Fucsia",
+  unlocked: true,
+  gradient: ["#833ab4", "#fd1d1d", "#fcb045"],
+},
+{
+  id: 15,
+  name: "Acero Azul",
+  unlocked: false,
+  gradient: ["#1e3c72", "#2a5298"],
+},
+{
+  id: 16,
+  name: "Lavanda Suave",
+  unlocked: true,
+  gradient: ["#e6e6fa", "#d8bfd8"],
+},
+{
+  id: 17,
+  name: "Tropical",
+  unlocked: true,
+  gradient: ["#f12711", "#f5af19"],
+},
+{
+  id: 18,
+  name: "Cielo Rosa",
+  unlocked: true,
+  gradient: ["#fcbad3", "#fefdca"],
+}
+
+];
+
+type ThemeItem = {
+  id: number;
+  name: string;
+  unlocked: boolean;
+  gradient: readonly string[];
+};
+
+type BloqueProps = {
+  title: string;
+  filtro: "all" | "unlocked" | "locked";
+  setFiltro: (f: "all" | "unlocked" | "locked") => void;
+  data: ThemeItem[];
+  seleccionado: number | null;
+  setSeleccionado: (id: number | null) => void;
+  setTemaActivo?: (item: ThemeItem | null) => void;
+  temaActivo?: ThemeItem | null;
+};
+
+type RewardCardProps = {
+  item: ThemeItem;
+  selected?: boolean;
+  onSelect: () => void;
+};
+
+const fondos = [
+    {
+        id: 1,
+        name: "Galaxy",
+        unlocked: true,
+        gradient: ["#2b5876", "#4e4376"] as const,
+    },
+    {
+        id: 2,
+        name: "Montañas",
+        unlocked: false,
+        gradient: ["#cfd9df", "#e2ebf0"] as const,
+    },
+];
+
+const avatares = [
+    {
+        id: 1,
+        name: "Robot",
+        unlocked: true,
+        gradient: ["#d9a7c7", "#fffcdc"] as const,
+    },
+    {
+        id: 2,
+        name: "Guerrero",
+        unlocked: false,
+        gradient: ["#bdc3c7", "#2c3e50"] as const,
+    },
+];
+
+/* ----------------------------- COMPONENTE ----------------------------- */
+
+export default function RecompensasScreen({ navigation }) {
+    const [temaFiltro, setTemaFiltro] = useState("unlocked");
+    const [fondoFiltro, setFondoFiltro] = useState("unlocked");
+    const [avatarFiltro, setAvatarFiltro] = useState("unlocked");
+
+    const [temaSeleccionado, setTemaSeleccionado] = useState<number | null>(null);
+    const [temaActivo, setTemaActivo] = useState<any | null>(null);
+
+    const filtrar = (data: any[], filtro: string) => {
+        if (filtro === "all") return data;
+        if (filtro === "unlocked") return data.filter((i) => i.unlocked);
+        return data.filter((i) => !i.unlocked);
+    };
+
+    const resetear = () => {
+        setTemaFiltro("unlocked");
+        setFondoFiltro("unlocked");
+        setAvatarFiltro("unlocked");
+        setTemaSeleccionado(null);
+        setTemaActivo(null);
+    };
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
-            <Header>
-                <HeaderTitle>Recompensas</HeaderTitle>
-                <User>
-                    <FontAwesome name="user" size={32} color="#adcBff" />
-                </User>
-            </Header>
+        <LinearGradient
+            colors={temaActivo ? temaActivo.gradient : ["#FFFFFF", "#FFFFFF"]}
+            style={{ flex: 1 }}
+        >
+            <SafeAreaView style={{ flex: 1 }}>
+                {/* HEADER SUPERIOR */}
+                <Header>
+                    <HeaderTitle style={{ color: temaActivo ? "white" : "rgb(173,203,255)" }}>
+                        Recompensas
+                    </HeaderTitle>
 
-            <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-                
-                {/** ---------- BLOQUE 1: TEMAS ---------- */}
-                <SectionContainer>
-                    <SectionTitle>Temas</SectionTitle>
+                    <User>
+                        <FontAwesome
+                            name="user"
+                            size={32}
+                            color={temaActivo ? "white" : "#adcBff"}
+                        />
+                    </User>
+                </Header>
 
-                    <FiltersRow>
-                        <FilterButtonActive><FilterTextActive>Desbloqueados</FilterTextActive></FilterButtonActive>
-                        <FilterButton><FilterText>Bloqueados</FilterText></FilterButton>
-                    </FiltersRow>
+                <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+                    <Bloque
+                        title="Temas"
+                        filtro={temaFiltro}
+                        setFiltro={setTemaFiltro}
+                        data={filtrar(temas, temaFiltro)}
+                        seleccionado={temaSeleccionado}
+                        setSeleccionado={setTemaSeleccionado}
+                        setTemaActivo={setTemaActivo}
+                        temaActivo={temaActivo}
+                    />
 
-                    <RewardsRow horizontal showsHorizontalScrollIndicator={false}>
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                    </RewardsRow>
-                </SectionContainer>
+                    <Bloque
+                        title="Fondos"
+                        filtro={fondoFiltro}
+                        setFiltro={setFondoFiltro}
+                        data={filtrar(fondos, fondoFiltro)}
+                        seleccionado={null}
+                        setSeleccionado={() => {}}
+                        setTemaActivo={() => {}}
+                        temaActivo={temaActivo}
+                    />
 
+                    <Bloque
+                        title="Avatares"
+                        filtro={avatarFiltro}
+                        setFiltro={setAvatarFiltro}
+                        data={filtrar(avatares, avatarFiltro)}
+                        seleccionado={null}
+                        setSeleccionado={() => {}}
+                        setTemaActivo={() => {}}
+                        temaActivo={temaActivo}
+                    />
 
-                {/** ---------- BLOQUE 2: FONDOS ---------- */}
-                <SectionContainer>
-                    <SectionTitle>Fondos</SectionTitle>
+                    {/* BOTONES FINALES */}
+                    <ButtonsContainer>
+                        <ActionButton
+                            onPress={() => {
+                              if (Platform.OS === "web") {
+                                // En web, redirecciona a la ruta raíz
+                                window.location.href = "/";
+                              } else {
+                                // En móvil, usa React Navigation
+                                navigation.navigate("Home");
+                              }
+                            }}
+                        >
+                          <ActionText>Regresar a inicio</ActionText>
+                        </ActionButton>
 
-                    <FiltersRow>
-                        <FilterButtonActive><FilterTextActive>Desbloqueados</FilterTextActive></FilterButtonActive>
-                        <FilterButton><FilterText>Bloqueados</FilterText></FilterButton>
-                    </FiltersRow>
-
-                    <RewardsRow horizontal showsHorizontalScrollIndicator={false}>
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                    </RewardsRow>
-                </SectionContainer>
-
-
-                {/** ---------- BLOQUE 3 SI LO NECESITAS ---------- */}
-                <SectionContainer>
-                    <SectionTitle>Avatares</SectionTitle>
-
-                    <FiltersRow>
-                        <FilterButtonActive><FilterTextActive>Desbloqueados</FilterTextActive></FilterButtonActive>
-                        <FilterButton><FilterText>Bloqueados</FilterText></FilterButton>
-                    </FiltersRow>
-
-                    <RewardsRow horizontal showsHorizontalScrollIndicator={false}>
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                        <RewardCard />
-                    </RewardsRow>
-                </SectionContainer>
-
-            </ScrollView>
-        </SafeAreaView>
+                        <ActionButtonSecondary onPress={resetear}>
+                            <ActionTextSecondary>Restablecer</ActionTextSecondary>
+                        </ActionButtonSecondary>
+                    </ButtonsContainer>
+                </ScrollView>
+            </SafeAreaView>
+        </LinearGradient>
     );
+}
+
+/* ----------------------------- BLOQUE ----------------------------- */
+
+function Bloque({
+  title,
+  filtro,
+  setFiltro,
+  data,
+  seleccionado,
+  setSeleccionado,
+  setTemaActivo,
+  temaActivo,
+}: BloqueProps) {
+  return (
+    <SectionContainer>
+      <SectionTitle style={{ color: temaActivo ? "white" : "#4b4b4b" }}>
+        {title}
+      </SectionTitle>
+
+      <FiltersRow>
+        <TabButton active={filtro === "unlocked"} onPress={() => setFiltro("unlocked")}>
+          <TabText active={filtro === "unlocked"}>Desbloqueados</TabText>
+        </TabButton>
+
+        <TabButton active={filtro === "locked"} onPress={() => setFiltro("locked")}>
+          <TabText active={filtro === "locked"}>Bloqueados</TabText>
+        </TabButton>
+
+        <TabButton active={filtro === "all"} onPress={() => setFiltro("all")}>
+          <TabText active={filtro === "all"}>Todos</TabText>
+        </TabButton>
+      </FiltersRow>
+
+      <RewardsRow horizontal showsHorizontalScrollIndicator={false}>
+        {data.length === 0 ? (
+          <EmptyText>No hay elementos aquí</EmptyText>
+        ) : (
+          data.map((item) => (
+            <RewardCard
+              key={item.id}
+              item={item}
+              selected={seleccionado === item.id}
+              onSelect={() => {
+                if (!item.unlocked) return;
+                setSeleccionado(item.id);
+                if (title === "Temas" && setTemaActivo) {
+                  setTemaActivo(item);
+                }
+              }}
+            />
+          ))
+        )}
+      </RewardsRow>
+    </SectionContainer>
+  );
+}
+
+
+/* ----------------------------- CARD ----------------------------- */
+
+function RewardCard({ item, selected, onSelect }: RewardCardProps) {
+  const scale = new Animated.Value(1);
+
+  const animatePress = () => {
+    Animated.sequence([
+      Animated.timing(scale, { toValue: 0.92, duration: 120, useNativeDriver: true }),
+      Animated.timing(scale, { toValue: 1, duration: 120, useNativeDriver: true }),
+    ]).start(() => onSelect());
+  };
+
+  return (
+    <Animated.View style={{ transform: [{ scale }], marginRight: 15 }}>
+      <TouchableOpacity activeOpacity={0.85} onPress={animatePress} disabled={!item.unlocked}>
+        <Card style={{ borderWidth: selected ? 3 : 0, borderColor: "#8da4ff" }}>
+          <LinearGradient
+            colors={item.gradient}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: 15,
+              justifyContent: "center",
+              alignItems: "center",
+              opacity: item.unlocked ? 1 : 0.3,
+            }}
+          >
+            <CardLabel selected={selected} unlocked={item.unlocked}>
+              {item.name}
+            </CardLabel>
+          </LinearGradient>
+
+          {!item.unlocked && (
+            <LockOverlay>
+              <FontAwesome name="lock" size={30} color="white" />
+            </LockOverlay>
+          )}
+        </Card>
+      </TouchableOpacity>
+    </Animated.View>
+  );
 }
 
 
@@ -88,7 +425,6 @@ const HeaderTitle = styled.Text`
     width: 80%;
     font-size: 28px;
     font-weight: bold;
-    color: rgb(173,203,255);
 `;
 
 const User = styled.View`
@@ -98,57 +434,111 @@ const User = styled.View`
 
 const SectionContainer = styled.View`
     width: 100%;
-    padding: 10px 20px;
-    margin-top: 10px;
+    padding: 20px;
+    margin-top: 5px;
 `;
 
 const SectionTitle = styled.Text`
     font-size: 26px;
     font-weight: bold;
-    color: #4b4b4b;
-    margin-bottom: 5px;
 `;
 
-/* Filtros */
 const FiltersRow = styled.View`
     flex-direction: row;
     margin-bottom: 10px;
 `;
 
-const FilterButton = styled(TouchableOpacity)`
+const TabButton = styled(TouchableOpacity)`
     padding: 6px 14px;
     border-radius: 20px;
-    background-color: #e6e6e6;
     margin-right: 10px;
+    background-color: ${(p) => (p.active ? "rgb(173,203,255)" : "#e6e6e6")};
 `;
 
-const FilterButtonActive = styled(TouchableOpacity)`
-    padding: 6px 14px;
-    border-radius: 20px;
-    background-color: rgb(173,203,255);
-    margin-right: 10px;
-`;
-
-const FilterText = styled.Text`
-    color: #555;
+const TabText = styled.Text`
+    color: ${(p) => (p.active ? "white" : "#555")};
     font-weight: bold;
 `;
 
-const FilterTextActive = styled.Text`
-    color: white;
-    font-weight: bold;
-`;
-
-/* Carrusel horizontal */
 const RewardsRow = styled.ScrollView`
     flex-direction: row;
+    padding-vertical: 10px;
 `;
 
-const RewardCard = styled.View`
-    width: 120px;
-    height: 120px;
-    background-color: #f8f8f8;
+const Card = styled.View`
+    width: 140px;
+    height: 140px;
     border-radius: 15px;
-    margin-right: 15px;
-    border: 2px dashed #ccc;
+    overflow: hidden;
+    background-color: #f0f0f0;
+`;
+
+const CardLabel = styled.Text<{ selected?: boolean; unlocked?: boolean }>`
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+
+    color: ${(p) =>
+        !p.unlocked
+            ? "rgba(255,255,255,0.5)"
+            : p.selected
+            ? "#fff14d"
+            : "white"};
+
+    ${(p) =>
+        p.selected &&
+        `
+        text-shadow: 0px 0px 8px rgba(255,255,0,1);
+    `}
+`;
+
+const EmptyText = styled.Text`
+    font-size: 18px;
+    color: #777;
+    padding: 20px;
+    text-align: center;
+`;
+
+const LockOverlay = styled.View`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+`;
+
+const ButtonsContainer = styled.View`
+    width: 100%;
+    padding: 25px;
+    margin-top: 15px;
+    justify-content: center;
+`;
+
+const ActionButton = styled.TouchableOpacity`
+    background-color: #8da4ff;
+    padding: 15px;
+    border-radius: 14px;
+    align-items: center;
+    margin-bottom: 10px;
+`;
+
+const ActionText = styled.Text`
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+`;
+
+const ActionButtonSecondary = styled.TouchableOpacity`
+    background-color: #e6e6e6;
+    padding: 15px;
+    border-radius: 14px;
+    align-items: center;
+`;
+
+const ActionTextSecondary = styled.Text`
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
 `;
