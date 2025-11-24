@@ -53,7 +53,7 @@ export default function Screen1() {
     </FooterContainer>
 
     <FooterContainer>
-        <FooterItem onPress={() => router.push('/')}>
+        <FooterItem onPress={() => router.push('/recompensas')}>
             <FontAwesome name="bell" size={35} />
         </FooterItem>
     </FooterContainer>
