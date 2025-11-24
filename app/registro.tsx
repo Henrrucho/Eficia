@@ -96,7 +96,7 @@ export default function Registro() {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push("/login")}>
+      <TouchableOpacity onPress={() => router.push("/")}>
         <Text
           style={{
             color: "#1e90ff",
