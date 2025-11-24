@@ -53,7 +53,7 @@ export default function Task() {
             Alert.alert('Éxito', 'Tarea creada correctamente');
             console.log('Tarea creada:', response.data);
 
-            // Limpiar campos
+            
             setTitle('');
             setDescription('');
             setDueDate(null);
@@ -69,9 +69,7 @@ export default function Task() {
         }
     };
 
-    // SOLUCIÓN PARA ANDROID: Enfoque separado por modo
     const handleAndroidDateChange = (_event: any, selectedDate?: Date) => {
-        // Siempre cerrar el picker inmediatamente en Android
         setShowDatePicker(false);
         
         if (selectedDate) {
@@ -79,26 +77,23 @@ export default function Task() {
             let newDate = new Date(selectedDate);
             
             if (androidMode === 'date') {
-                // Si estamos en modo fecha, mantener la hora actual
                 newDate.setHours(currentDate.getHours());
                 newDate.setMinutes(currentDate.getMinutes());
                 setDueDate(newDate);
                 
-                // Cambiar a modo tiempo después de seleccionar fecha
                 setTimeout(() => {
                     setAndroidMode('time');
                     setShowDatePicker(true);
                 }, 300);
             } else {
-                // Si estamos en modo tiempo, mantener la fecha y actualizar hora
                 newDate.setFullYear(currentDate.getFullYear());
                 newDate.setMonth(currentDate.getMonth());
                 newDate.setDate(currentDate.getDate());
                 setDueDate(newDate);
-                setAndroidMode('date'); // Resetear a modo fecha para la próxima vez
+                setAndroidMode('date'); 
             }
         } else {
-            setAndroidMode('date'); // Resetear si se cancela
+            setAndroidMode('date'); 
         }
     };
 
@@ -117,7 +112,7 @@ export default function Task() {
             return;
         }
         
-        // Para iOS: manejo normal
+        
         if (selectedDate) {
             setDueDate(selectedDate);
         }
@@ -126,7 +121,7 @@ export default function Task() {
     const handleCancelDatePicker = () => {
         setShowDatePicker(false);
         if (Platform.OS === 'android') {
-            setAndroidMode('date'); // Resetear modo
+            setAndroidMode('date'); 
         }
     };
 
@@ -152,12 +147,12 @@ export default function Task() {
                     onChangeText={setTitle}
                 />
 
-                <Label>Fecha y hora:</Label>
+                <Label>Fecha y hora de vencimiento:</Label>
                 <DatePickerButton onPress={handleShowDatePicker}>
                     <RNText>{dueDate ? dueDate.toLocaleString() : 'Seleccionar fecha y hora'}</RNText>
                 </DatePickerButton>
 
-                {/* PARA iOS */}
+                
                 {showDatePicker && Platform.OS === 'ios' && (
                     <Modal
                         visible={showDatePicker}
@@ -185,7 +180,6 @@ export default function Task() {
                     </Modal>
                 )}
 
-                {/* PARA ANDROID */}
                 {showDatePicker && Platform.OS === 'android' && (
                     <DateTimePicker
                         value={dueDate || new Date()}
@@ -240,7 +234,6 @@ export default function Task() {
     );
 }
 
-// Styled Components
 
 const Header = styled.View`
   width: 100%;
